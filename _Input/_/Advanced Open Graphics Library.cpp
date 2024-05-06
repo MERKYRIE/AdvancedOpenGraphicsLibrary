@@ -8,6 +8,7 @@
 #define GLAD_GL_IMPLEMENTATION
 
 #include"Advanced Open Graphics Library.hpp"
+
 #include"Audio.hpp"
 #include"Debug.hpp"
 #include"Input.hpp"
@@ -17,21 +18,27 @@
 
 std::int32_t main(std::int32_t , char**)
 {
-    NAdvancedOpenGraphicsLibrary::GDebug.OSimpleDirectMediaLayerCodeError(SDL_Init(SDL_INIT_EVERYTHING));
-    NAdvancedOpenGraphicsLibrary::GAudio.BInitialize();
-    NAdvancedOpenGraphicsLibrary::GVideo.BInitialize();
-    NAdvancedOpenGraphicsLibrary::GSpace.BInitialize();
-    while(!NAdvancedOpenGraphicsLibrary::GInput.OIsKeyHeld(SDL_SCANCODE_ESCAPE))
+    new NAdvancedOpenGraphicsLibrary::CDebug;
+    NAdvancedOpenGraphicsLibrary::GDebug->AAssertSimpleDirectMediaLayerCode(SDL_Init(SDL_INIT_EVERYTHING));
+    new NAdvancedOpenGraphicsLibrary::CAudio;
+    new NAdvancedOpenGraphicsLibrary::CInput;
+    new NAdvancedOpenGraphicsLibrary::CVideo;
+    new NAdvancedOpenGraphicsLibrary::CTime;
+    new NAdvancedOpenGraphicsLibrary::CSpace;
+    while(!NAdvancedOpenGraphicsLibrary::GInput->AIsKeyHeld(SDL_SCANCODE_ESCAPE))
     {
-        NAdvancedOpenGraphicsLibrary::GInput.BUpdate();
-        NAdvancedOpenGraphicsLibrary::GTime.BUpdate();
-        NAdvancedOpenGraphicsLibrary::GVideo.BPreupdate();
-        NAdvancedOpenGraphicsLibrary::GSpace.BUpdate();
-        NAdvancedOpenGraphicsLibrary::GVideo.BPostupdate();
+        NAdvancedOpenGraphicsLibrary::GInput->AUpdate();
+        NAdvancedOpenGraphicsLibrary::GTime->AUpdate();
+        NAdvancedOpenGraphicsLibrary::GVideo->APreupdate();
+        NAdvancedOpenGraphicsLibrary::GSpace->AUpdate();
+        NAdvancedOpenGraphicsLibrary::GVideo->APostupdate();
     };
-    NAdvancedOpenGraphicsLibrary::GSpace.BDeinitialize();
-    NAdvancedOpenGraphicsLibrary::GVideo.BDeinitialize();
-    NAdvancedOpenGraphicsLibrary::GAudio.BDeinitialize();
+    delete NAdvancedOpenGraphicsLibrary::GSpace;
+    delete NAdvancedOpenGraphicsLibrary::GTime;
+    delete NAdvancedOpenGraphicsLibrary::GVideo;
+    delete NAdvancedOpenGraphicsLibrary::GInput;
+    delete NAdvancedOpenGraphicsLibrary::GAudio;
     SDL_Quit();
+    delete NAdvancedOpenGraphicsLibrary::GDebug;
     return(0);
 }

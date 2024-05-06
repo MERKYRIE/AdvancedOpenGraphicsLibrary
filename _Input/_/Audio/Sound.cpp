@@ -7,21 +7,24 @@ namespace NAdvancedOpenGraphicsLibrary::NAudio
     CSound::CSound(const std::string& PPath)
     {
         FPath = PPath.substr(PPath.find('\\'));
-        GDebug.OSimpleDirectMediaLayerHandleError(FHandle = Mix_LoadWAV(PPath.c_str()));
+        GDebug->AAssertSimpleDirectMediaLayerHandle(FHandle = Mix_LoadWAV(PPath.c_str()));
         FChannel = Mix_AllocateChannels(SDL_QUERY);
-        GDebug.OError(Mix_AllocateChannels(Mix_AllocateChannels(SDL_QUERY) + 1) != FChannel + 1);
+        GDebug->AAssert(Mix_AllocateChannels(Mix_AllocateChannels(SDL_QUERY) + 1) != FChannel + 1);
     }
-    bool CSound::operator==(const std::string& PPath) const
+    std::string CSound::APath()
+    {
+        return FPath;
+    }
+    bool CSound::AIs(const std::string& PPath)
     {
         return(FPath == PPath);
     }
-
-    const CSound& CSound::OPlay() const
+    CSound* CSound::APlay()
     {
-        GDebug.OSimpleDirectMediaLayerCodeError(Mix_PlayChannel(FChannel , FHandle , 0) != FChannel);
-        return(*this);
+        GDebug->AAssertSimpleDirectMediaLayerCode(Mix_PlayChannel(FChannel , FHandle , 0) != FChannel);
+        return(this);
     }
-    bool CSound::OIsPlaying() const
+    bool CSound::AIsPlaying()
     {
         return(Mix_Playing(FChannel));
     }

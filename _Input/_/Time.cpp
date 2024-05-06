@@ -2,19 +2,25 @@
 
 namespace NAdvancedOpenGraphicsLibrary
 {
-    void CTime::BUpdate()
+    CTime::CTime()
     {
-        FLast = FAbsolute;
-        FAbsolute = SDL_GetTicks();
-        FRelative = FAbsolute - FLast;
+        GTime = this;
+        FTimepointLast = 0;
+        FTimepointAbsolute = 0;
+        FTimepointRelative = 0;
     }
-
-    std::uint32_t CTime::OAbsolute()
+    void CTime::AUpdate()
     {
-        return(FAbsolute);
+        FTimepointLast = FTimepointAbsolute;
+        FTimepointAbsolute = SDL_GetTicks();
+        FTimepointRelative = FTimepointAbsolute - FTimepointLast;
     }
-    std::uint32_t CTime::ORelative()
+    std::uint32_t CTime::AAbsolute()
     {
-        return(FRelative);
+        return(FTimepointAbsolute);
+    }
+    std::uint32_t CTime::ARelative()
+    {
+        return(FTimepointRelative);
     }
 }

@@ -1,0 +1,36 @@
+#version 460 core
+
+layout(triangles) in;
+layout(location = 5) in float IDisplacement[];
+
+layout(location = 0) uniform mat4 UProjection;
+layout(location = 1) uniform mat4 UView;
+
+layout(line_strip) out;
+layout(max_vertices = 6) out;
+layout(location = 6) out float ODisplacement;
+
+void main()
+{
+    gl_Position = UProjection * UView * gl_in[0].gl_Position;
+    ODisplacement = IDisplacement[0];
+    EmitVertex();
+    gl_Position = UProjection * UView * vec4(gl_in[0].gl_Position.xyz * 0.75F , 1.0F);
+    ODisplacement = IDisplacement[0] + 0.25F;
+    EmitVertex();
+    EndPrimitive();
+    gl_Position = UProjection * UView * gl_in[1].gl_Position;
+    ODisplacement = IDisplacement[1];
+    EmitVertex();
+    gl_Position = UProjection * UView * vec4(gl_in[1].gl_Position.xyz * 0.75F , 1.0F);
+    ODisplacement = IDisplacement[1] + 0.25F;
+    EmitVertex();
+    EndPrimitive();
+    gl_Position = UProjection * UView * gl_in[2].gl_Position;
+    ODisplacement = IDisplacement[2];
+    EmitVertex();
+    gl_Position = UProjection * UView * vec4(gl_in[2].gl_Position.xyz * 0.75F , 1.0F);
+    ODisplacement = IDisplacement[2] + 0.25F;
+    EmitVertex();
+    EndPrimitive();
+} 

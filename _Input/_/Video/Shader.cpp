@@ -1,12 +1,15 @@
 #include"Shader.hpp"
 
+#include"Program.hpp"
+
 #include"Debug.hpp"
+#include"Video.hpp"
 
 namespace NAdvancedOpenGraphicsLibrary::NVideo
 {
     CShader::CShader(const std::string& PPath , std::uint32_t PType)
     {
-        std::fstream LFile{"Program" + PPath , std::ios::in};
+        std::fstream LFile{"Shaders" + PPath , std::ios::in};
         FIdentifier = glCreateShader(PType);
         std::stringstream LStream;
         LStream << LFile.rdbuf();
@@ -21,16 +24,20 @@ namespace NAdvancedOpenGraphicsLibrary::NVideo
         std::string LLog;
         LLog.resize(LLength);
         glGetShaderInfoLog(FIdentifier , LLength , nullptr , LLog.data());
-        GDebug.OError(!LSuccess , "Open Graphics Library - " + LLog);
+        GDebug->AAssert(!LSuccess , "Open Graphics Library - " + LLog);
     }
-    std::uint32_t CShader::BIdentifier()
+    std::uint32_t CShader::AIdentifier()
     {
         return(FIdentifier);
     }
-
+    CShader* CShader::AAttach(CProgram* PProgram)
+    {
+        glAttachShader(PProgram->AIdentifier() , FIdentifier);
+        return this;
+    }
     CShader::~CShader()
     {
         glDeleteShader(FIdentifier);
-        GDebug.OOpenGraphicsLibraryError();
+        GDebug->AAssertOpenGraphicsLibrary();
     }
 }

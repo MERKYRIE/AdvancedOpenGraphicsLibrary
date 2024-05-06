@@ -2,7 +2,37 @@
 
 namespace NAdvancedOpenGraphicsLibrary
 {
-    void CInput::BUpdate()
+    CInput::CInput()
+    {
+        GInput = this;
+        for(std::uint16_t LKey{0} ; LKey < 512 ; LKey++)
+        {
+            FIsKeyHeld[LKey] = false;
+            FIsKeyPressed[LKey] = false;
+            FIsKeyReleased[LKey] = false;
+        }
+        for(std::uint8_t LButton{0} ; LButton <= 4 ; LButton++)
+        {
+            FIsButtonHeld[LButton] = false;
+            FIsButtonPressed[LButton] = false;
+            FIsButtonReleased[LButton] = false;
+            FPressedX[LButton] = 0;
+            FPressedY[LButton] = 0;
+            FReleasedX[LButton] = 0;
+            FReleasedY[LButton] = 0;
+        }
+        FAbsoluteX = 0;
+        FRelativeX = 0;
+        FIsXModified = false;
+        FAbsoluteY = 0;
+        FRelativeY = 0;
+        FIsYModified = false;
+        FWheelState = 0;
+        FIsWheelModified = false;
+        FIsWheelDown = false;
+        FIsWheelUp = false;
+    }
+    void CInput::AUpdate()
     {
         for(std::uint16_t LKey{0} ; LKey < 512 ; LKey++)
         {
@@ -89,84 +119,83 @@ namespace NAdvancedOpenGraphicsLibrary
             }
         }
     }
-
-    bool CInput::OIsKeyHeld(std::uint16_t PKey)
+    bool CInput::AIsKeyHeld(std::uint16_t PKey)
     {
         return(FIsKeyHeld[PKey]);
     }
-    bool CInput::OIsKeyPressed(std::uint16_t PKey)
+    bool CInput::AIsKeyPressed(std::uint16_t PKey)
     {
         return(FIsKeyPressed[PKey]);
     }
-    bool CInput::OIsKeyReleased(std::uint16_t PKey)
+    bool CInput::AIsKeyReleased(std::uint16_t PKey)
     {
         return(FIsKeyReleased[PKey]);
     }
-    bool CInput::OIsButtonHeld(std::uint8_t PButton)
+    bool CInput::AIsButtonHeld(std::uint8_t PButton)
     {
         return(FIsButtonHeld[PButton - 1]);
     }
-    bool CInput::OIsButtonPressed(std::uint8_t PButton)
+    bool CInput::AIsButtonPressed(std::uint8_t PButton)
     {
         return(FIsButtonPressed[PButton - 1]);
     }
-    bool CInput::OIsButtonReleased(std::uint8_t PButton)
+    bool CInput::AIsButtonReleased(std::uint8_t PButton)
     {
         return(FIsButtonHeld[PButton - 1]);
     }
-    std::int32_t CInput::OAbsoluteX()
+    std::int32_t CInput::AAbsoluteX()
     {
         return(FAbsoluteX);
     }
-    std::int32_t CInput::ORelativeX()
+    std::int32_t CInput::ARelativeX()
     {
         return(FRelativeX);
     }
-    bool CInput::OIsXModified()
+    bool CInput::AIsXModified()
     {
         return(FIsXModified);
     }
-    std::int32_t CInput::OAbsoluteY()
+    std::int32_t CInput::AAbsoluteY()
     {
         return(FAbsoluteY);
     }
-    std::int32_t CInput::ORelativeY()
+    std::int32_t CInput::ARelativeY()
     {
         return(FRelativeY);
     }
-    bool CInput::OIsYModified()
+    bool CInput::AIsYModified()
     {
         return(FIsYModified);
     }
-    std::int32_t CInput::OPressedX(std::uint8_t PButton)
+    std::int32_t CInput::APressedX(std::uint8_t PButton)
     {
         return(FPressedX[PButton - 1]);
     }
-    std::int32_t CInput::OPressedY(std::uint8_t PButton)
+    std::int32_t CInput::APressedY(std::uint8_t PButton)
     {
         return(FPressedY[PButton - 1]);
     }
-    std::int32_t CInput::OReleasedX(std::uint8_t PButton)
+    std::int32_t CInput::AReleasedX(std::uint8_t PButton)
     {
         return(FReleasedX[PButton - 1]);
     }
-    std::int32_t CInput::OReleasedY(std::uint8_t PButton)
+    std::int32_t CInput::AReleasedY(std::uint8_t PButton)
     {
         return(FReleasedY[PButton - 1]);
     }
-    std::int32_t CInput::OWheelState()
+    std::int32_t CInput::AWheelState()
     {
         return(FWheelState);
     }
-    bool CInput::OIsWheelModified()
+    bool CInput::AIsWheelModified()
     {
         return(FIsWheelModified);
     }
-    bool CInput::OIsWheelDown()
+    bool CInput::AIsWheelDown()
     {
         return(FIsWheelDown);
     }
-    bool CInput::OIsWheelUp()
+    bool CInput::AIsWheelUp()
     {
         return(FIsWheelUp);
     }

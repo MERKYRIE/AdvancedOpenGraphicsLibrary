@@ -1,0 +1,24 @@
+#version 460 core
+
+layout(triangles) in;
+layout(equal_spacing) in;
+layout(cw) in;
+
+layout(location = 2) uniform float UTime;
+layout(location = 3) uniform sampler2D UA;
+layout(location = 4) uniform sampler2D UB;
+
+layout(location = 5) out float ODisplacement;
+
+void main()
+{	
+    gl_Position = vec4
+    (
+        normalize(vec3(gl_TessCoord.x) * vec3(gl_in[0].gl_Position) + vec3(gl_TessCoord.y) * vec3(gl_in[1].gl_Position) + vec3(gl_TessCoord.z) * vec3(gl_in[2].gl_Position))
+        *
+        (0.5F + 0.00390625F * mix(texture(UA , gl_TessCoord.xy).x , texture(UB , gl_TessCoord.xy).x , sin(UTime)))
+        ,
+        1.0F
+    );
+    ODisplacement = mix(texture(UA , gl_TessCoord.xy).x , texture(UB , gl_TessCoord.xy).x , sin(UTime));
+}
